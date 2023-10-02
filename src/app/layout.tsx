@@ -1,9 +1,11 @@
-import { cn } from "@/lib/utlis"
-import "./globals.css"
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import { Navbar, Providers } from "@/components"
+import { cn } from "@/lib/utils";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { Navbar, Providers } from "@/components";
+import { Toaster } from "@/components/ui/toaster"
+import "./globals.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import "simplebar-react/dist/simplebar.min.css";
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -25,6 +27,7 @@ export default function RootLayout({
             <Navbar />
           </header>
           {children}
+          <Toaster />
         </body>
       </Providers>
     </html>

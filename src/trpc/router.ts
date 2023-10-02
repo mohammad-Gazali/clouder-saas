@@ -10,7 +10,7 @@ export const appRouter = router({
 
         const user = getUser();
 
-        if (!user.email || !user.id) throw new TRPCError({ code: "UNAUTHORIZED" });
+        if (!user || !user.email || !user.id) throw new TRPCError({ code: "UNAUTHORIZED" });
 
         // check if the user is in the database
         const dbUser = await db.user.findUnique({
@@ -56,7 +56,18 @@ export const appRouter = router({
 
         return file;
     }),
-    
+    getFile: privateProcedure.input(z.object({ key: z.string().nonempty() })).mutation(async ({ ctx: { user }, input }) => {
+        const file = await db.file.findFirst({
+            where: {
+                key: input.key,
+                userId: user.id,
+            }
+        });
+
+        if (!file) throw new TRPCError({ code: "NOT_FOUND" });
+
+        return file;
+    }),
 })
 
 export type AppRouter = typeof appRouter;
