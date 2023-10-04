@@ -68,17 +68,16 @@ export const appRouter = router({
 
         return file;
     }),
-    getFileUploadStatus: privateProcedure.input(z.object({ fileId: z.string().nonempty() })).query(async ({ ctx: { user }, input }) => {
-        const file = await db.file.findUnique({
-            where: {
-                id: input.fileId,
+    createNote: privateProcedure.input(z.object({ fileId: z.string().nonempty(), text: z.string().nonempty() })).mutation(async ({ ctx: { user }, input }) => {
+        const note = await db.note.create({
+            data: {
+                text: input.text,
+                fileId: input.fileId,
                 userId: user.id!,
             }
         });
 
-        if (!file) return { status: "PENDING" as const };
-
-        return { status: file.uploadStatus };
+        return note;
     }),
 })
 

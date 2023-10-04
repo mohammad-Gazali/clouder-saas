@@ -2,15 +2,15 @@ import { useContext, useRef } from "react";
 import { Send } from "lucide-react";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
-import { ChatContext } from "./ChatContext";
+import { NoteContext } from "./NoteContext";
 
-interface ChatInputProps {
+interface NoteInputProps {
 	isDisabled?: boolean;
 }
 
-const ChatInput = ({ isDisabled }: ChatInputProps) => {
-	const { addMessage, handleInputChange, isLoading, message } =
-		useContext(ChatContext);
+const NoteInput = ({ isDisabled }: NoteInputProps) => {
+	const { addNote, handleInputChange, isLoading, note } =
+		useContext(NoteContext);
 
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -27,17 +27,17 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
 								maxRows={4}
 								autoFocus
 								onChange={handleInputChange}
-								value={message}
+								value={note}
 								onKeyDown={(e) => {
 									if (e.key === "Enter" && !e.shiftKey) {
 										e.preventDefault();
 
-										addMessage();
+										addNote();
 
 										textareaRef.current?.focus();
 									}
 								}}
-								placeholder="Enter your question..."
+								placeholder="Enter your note..."
 								className="resize-none pr-12 text-base py-3 scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
 							/>
 
@@ -46,7 +46,7 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
 								className="absolute bottom-1.5 right-[8px]"
 								aria-label="send message"
 								onClick={() => {
-									addMessage();
+									addNote();
 
 									textareaRef.current?.focus();
 								}}
@@ -61,4 +61,4 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
 	);
 };
 
-export default ChatInput;
+export default NoteInput;
